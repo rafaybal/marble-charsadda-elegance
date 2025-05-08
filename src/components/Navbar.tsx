@@ -5,10 +5,26 @@ import { cn } from "../lib/utils";
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [activeSection, setActiveSection] = useState("home");
 
   useEffect(() => {
     const handleScroll = () => {
+      // Update navbar style on scroll
       setScrolled(window.scrollY > 50);
+      
+      // Determine active section for highlighting in navbar
+      const sections = document.querySelectorAll('section[id]');
+      const scrollPosition = window.scrollY + 100;  // offset for highlighting
+      
+      sections.forEach(section => {
+        const sectionTop = section.offsetTop;
+        const sectionHeight = section.offsetHeight;
+        const sectionId = section.getAttribute('id') || '';
+        
+        if (scrollPosition >= sectionTop && scrollPosition < sectionTop + sectionHeight) {
+          setActiveSection(sectionId);
+        }
+      });
     };
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
@@ -27,7 +43,7 @@ const Navbar = () => {
     { name: "Contact", href: "#contact" },
     { name: "FAQ", href: "#faq" }
   ];
-
+  
   return (
     <header 
       className={cn(
@@ -46,21 +62,31 @@ const Navbar = () => {
 
         {/* Desktop Navigation */}
         <nav className="hidden md:flex space-x-8">
-          {navLinks.map((link) => (
-            <a
-              key={link.name}
-              href={link.href}
-              className="font-medium hover:text-gold-600 transition-colors"
-            >
-              {link.name}
-            </a>
-          ))}
+          {navLinks.map((link) => {
+            const isActive = activeSection === link.href.substring(1);
+            return (
+              <a
+                key={link.name}
+                href={link.href}
+                className={`font-medium transition-all duration-300 relative ${
+                  isActive 
+                    ? 'text-gold-600' 
+                    : 'hover:text-gold-600'
+                }`}
+              >
+                {link.name}
+                <span className={`absolute -bottom-1 left-0 w-full h-0.5 bg-gold-400 transform scale-x-0 transition-transform duration-300 ${
+                  isActive ? 'scale-x-100' : ''
+                }`}></span>
+              </a>
+            );
+          })}
         </nav>
 
         {/* Mobile Navigation Button */}
         <button
           onClick={toggleMenu}
-          className="md:hidden text-gray-800 hover:text-gold-600 focus:outline-none"
+          className="md:hidden text-gray-800 hover:text-gold-600 focus:outline-none transition-transform duration-300"
           aria-label="Toggle Menu"
         >
           {isMenuOpen ? (
@@ -76,22 +102,29 @@ const Navbar = () => {
       </div>
 
       {/* Mobile Navigation Menu */}
-      {isMenuOpen && (
-        <div className="md:hidden bg-white shadow-lg py-4 absolute top-full left-0 w-full">
-          <div className="container-custom space-y-2">
-            {navLinks.map((link) => (
+      <div 
+        className={`md:hidden bg-white shadow-lg absolute top-full left-0 w-full transform transition-transform duration-300 ${
+          isMenuOpen ? 'translate-y-0 opacity-100' : '-translate-y-10 opacity-0 pointer-events-none'
+        }`}
+      >
+        <div className="container-custom space-y-2 py-4 stagger-animation">
+          {navLinks.map((link) => {
+            const isActive = activeSection === link.href.substring(1);
+            return (
               <a
                 key={link.name}
                 href={link.href}
-                className="block py-2 font-medium hover:text-gold-600 transition-colors"
+                className={`block py-2 font-medium transition-colors ${
+                  isActive ? 'text-gold-600' : 'hover:text-gold-600'
+                }`}
                 onClick={() => setIsMenuOpen(false)}
               >
                 {link.name}
               </a>
-            ))}
-          </div>
+            );
+          })}
         </div>
-      )}
+      </div>
     </header>
   );
 };

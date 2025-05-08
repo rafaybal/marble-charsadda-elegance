@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+
+import React, { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -18,6 +19,31 @@ type MarbleProduct = {
 const Products = () => {
   const [selectedSource, setSelectedSource] = useState<string>("all");
   const [selectedColor, setSelectedColor] = useState<string>("all");
+  
+  // Scroll animation logic
+  useEffect(() => {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('revealed');
+        }
+      });
+    }, { 
+      threshold: 0.1,
+      rootMargin: "0px 0px -50px 0px"
+    });
+    
+    const revealElements = document.querySelectorAll('.reveal-on-scroll');
+    revealElements.forEach(el => {
+      observer.observe(el);
+    });
+    
+    return () => {
+      revealElements.forEach(el => {
+        observer.unobserve(el);
+      });
+    };
+  }, []);
   
   const products: MarbleProduct[] = [
     {
@@ -104,32 +130,32 @@ const Products = () => {
   ];
 
   return (
-    <section id="products" className="section-padding bg-white">
+    <section id="products" className="section-padding bg-white animated-bg">
       <div className="container-custom">
-        <div className="text-center mb-12">
-          <h2 className="text-3xl md:text-4xl font-serif font-semibold mb-4">Our Premium Marble</h2>
-          <div className="w-24 h-1 bg-gold-400 mx-auto mb-6"></div>
-          <p className="text-lg text-gray-600 max-w-3xl mx-auto">
+        <div className="text-center mb-12 reveal-on-scroll">
+          <h2 className="text-3xl md:text-4xl font-serif font-semibold mb-4 text-gradient">Our Premium Marble</h2>
+          <div className="w-24 h-1 bg-gold-400 mx-auto mb-6 animated-scale-in" style={{animationDelay: "0.3s"}}></div>
+          <p className="text-lg text-gray-600 max-w-3xl mx-auto animated-fade-up" style={{animationDelay: "0.5s"}}>
             Explore our collection of high-quality Mohmand marble, sourced directly from
             Pakistan's finest mines and processed to perfection.
           </p>
         </div>
         
-        <Tabs defaultValue="all" className="w-full mb-12">
-          <div className="flex justify-center mb-8">
+        <Tabs defaultValue="all" className="w-full mb-12 reveal-on-scroll">
+          <div className="flex justify-center mb-8 animated-fade-down" style={{animationDelay: "0.3s"}}>
             <TabsList className="bg-marble-100">
-              <TabsTrigger value="all">All Products</TabsTrigger>
-              <TabsTrigger value="flooring">Flooring</TabsTrigger>
-              <TabsTrigger value="countertop">Countertops</TabsTrigger>
-              <TabsTrigger value="wall">Wall Cladding</TabsTrigger>
+              <TabsTrigger value="all" className="hover-lift">All Products</TabsTrigger>
+              <TabsTrigger value="flooring" className="hover-lift">Flooring</TabsTrigger>
+              <TabsTrigger value="countertop" className="hover-lift">Countertops</TabsTrigger>
+              <TabsTrigger value="wall" className="hover-lift">Wall Cladding</TabsTrigger>
             </TabsList>
           </div>
           
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-8 reveal-on-scroll animated-fade-up" style={{animationDelay: "0.5s"}}>
             <div>
               <label className="block text-sm font-medium mb-2">Filter by Source:</label>
               <select 
-                className="w-full p-2 border border-gray-300 rounded-md"
+                className="w-full p-2 border border-gray-300 rounded-md hover:border-gold-400 transition-colors duration-300"
                 value={selectedSource}
                 onChange={(e) => setSelectedSource(e.target.value)}
               >
@@ -141,7 +167,7 @@ const Products = () => {
             <div>
               <label className="block text-sm font-medium mb-2">Filter by Color:</label>
               <select 
-                className="w-full p-2 border border-gray-300 rounded-md"
+                className="w-full p-2 border border-gray-300 rounded-md hover:border-gold-400 transition-colors duration-300"
                 value={selectedColor}
                 onChange={(e) => setSelectedColor(e.target.value)}
               >
@@ -153,7 +179,7 @@ const Products = () => {
           </div>
           
           <TabsContent value="all" className="mt-0">
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 stagger-animation">
               {filteredProducts.map((product) => (
                 <ProductCard key={product.id} product={product} />
               ))}
@@ -161,7 +187,7 @@ const Products = () => {
           </TabsContent>
           
           <TabsContent value="flooring" className="mt-0">
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 stagger-animation">
               {filteredProducts
                 .filter(product => product.category === "flooring")
                 .map((product) => (
@@ -171,7 +197,7 @@ const Products = () => {
           </TabsContent>
           
           <TabsContent value="countertop" className="mt-0">
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 stagger-animation">
               {filteredProducts
                 .filter(product => product.category === "countertop")
                 .map((product) => (
@@ -181,7 +207,7 @@ const Products = () => {
           </TabsContent>
           
           <TabsContent value="wall" className="mt-0">
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 stagger-animation">
               {filteredProducts
                 .filter(product => product.category === "wall")
                 .map((product) => (
@@ -197,15 +223,15 @@ const Products = () => {
 
 const ProductCard = ({ product }: { product: MarbleProduct }) => {
   return (
-    <Card className="marble-card overflow-hidden">
+    <Card className="marble-card overflow-hidden reveal-on-scroll">
       <div className="relative h-64 overflow-hidden">
         <img 
           src={product.image} 
           alt={product.name}
-          className="w-full h-full object-cover"
+          className="w-full h-full object-cover transition-transform duration-700 hover:scale-110"
         />
         <div className="marble-card-overlay">
-          <Button variant="secondary" className="bg-white/80 hover:bg-white">
+          <Button variant="secondary" className="bg-white/80 hover:bg-white hover-lift">
             View Details
           </Button>
         </div>
@@ -223,12 +249,12 @@ const ProductCard = ({ product }: { product: MarbleProduct }) => {
       <CardFooter className="bg-marble-50 p-4 flex justify-between">
         <Button 
           variant="outline"
-          className="border-gold-400 text-gold-700 hover:bg-gold-100"
+          className="border-gold-400 text-gold-700 hover:bg-gold-100 hover-lift"
         >
           Add to Cart
         </Button>
         <Button 
-          className="bg-green-600 hover:bg-green-700 text-white"
+          className="bg-green-600 hover:bg-green-700 text-white hover-shine"
         >
           <MessageSquare className="mr-2 h-4 w-4" /> Order Now
         </Button>
