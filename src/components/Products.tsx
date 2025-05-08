@@ -1,5 +1,5 @@
 
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -19,31 +19,9 @@ type MarbleProduct = {
 const Products = () => {
   const [selectedSource, setSelectedSource] = useState<string>("all");
   const [selectedColor, setSelectedColor] = useState<string>("all");
+  const [animationTriggered, setAnimationTriggered] = useState<boolean>(false);
   
-  // Scroll animation logic
-  useEffect(() => {
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('revealed');
-        }
-      });
-    }, { 
-      threshold: 0.1,
-      rootMargin: "0px 0px -50px 0px"
-    });
-    
-    const revealElements = document.querySelectorAll('.reveal-on-scroll');
-    revealElements.forEach(el => {
-      observer.observe(el);
-    });
-    
-    return () => {
-      revealElements.forEach(el => {
-        observer.unobserve(el);
-      });
-    };
-  }, []);
+  // Using the custom scroll reveal hook from existing code
   
   const products: MarbleProduct[] = [
     {
@@ -51,7 +29,7 @@ const Products = () => {
       name: "Ziarat White Marble",
       description: "Premium white marble with subtle gray veining from Ziarat mines",
       price: "Rs. 180-220/sq.ft",
-      image: "https://images.unsplash.com/photo-1493397212122-2b85dda8106b?q=80&w=2594&auto=format&fit=crop",
+      image: "public/lovable-uploads/9324670b-b749-459f-a322-06569b968d4a.png",
       category: "flooring",
       source: "ziarat",
       color: "white"
@@ -61,7 +39,7 @@ const Products = () => {
       name: "Supreme White Marble",
       description: "Exquisite pure white marble from Khanqaa region",
       price: "Rs. 220-260/sq.ft",
-      image: "https://images.unsplash.com/photo-1582225193877-0b745a0a9e1e?q=80&w=2574&auto=format&fit=crop",
+      image: "public/lovable-uploads/5c0e3084-d1f3-4a30-9ce9-55d72c42e460.png",
       category: "countertop",
       source: "khanqaa",
       color: "white"
@@ -91,7 +69,7 @@ const Products = () => {
       name: "Beige Desert Marble",
       description: "Warm beige marble with soft patterns",
       price: "Rs. 170-210/sq.ft",
-      image: "https://images.unsplash.com/photo-1541123437800-1bb1317badc2?q=80&w=2574&auto=format&fit=crop",
+      image: "public/lovable-uploads/e66aaa2f-4457-423a-b5f1-260ec52127da.png",
       category: "flooring",
       source: "khanqaa",
       color: "beige"
@@ -101,7 +79,7 @@ const Products = () => {
       name: "Coral Pink Marble",
       description: "Elegant pink-toned marble for luxury interiors",
       price: "Rs. 260-310/sq.ft",
-      image: "https://images.unsplash.com/photo-1547499417-61a435d27cb3?q=80&w=2574&auto=format&fit=crop",
+      image: "public/lovable-uploads/2ea41a4e-58d7-4f17-ad20-d12f4fe91de1.png",
       category: "wall",
       source: "gumbatay",
       color: "pink"
@@ -129,11 +107,37 @@ const Products = () => {
     { value: "pink", label: "Pink" }
   ];
 
+  // Trigger animations when components come into view
+  React.useEffect(() => {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting && !animationTriggered) {
+          entry.target.classList.add('revealed');
+          setAnimationTriggered(true);
+        }
+      });
+    }, { 
+      threshold: 0.1,
+      rootMargin: "0px 0px -50px 0px"
+    });
+    
+    const revealElements = document.querySelectorAll('.reveal-on-scroll');
+    revealElements.forEach(el => {
+      observer.observe(el);
+    });
+    
+    return () => {
+      revealElements.forEach(el => {
+        observer.unobserve(el);
+      });
+    };
+  }, [animationTriggered]);
+
   return (
     <section id="products" className="section-padding bg-white animated-bg">
       <div className="container-custom">
         <div className="text-center mb-12 reveal-on-scroll">
-          <h2 className="text-3xl md:text-4xl font-serif font-semibold mb-4 text-gradient">Our Premium Marble</h2>
+          <h2 className="text-3xl md:text-4xl font-serif font-semibold mb-4 text-gradient animated-scale-in">Our Premium Marble</h2>
           <div className="w-24 h-1 bg-gold-400 mx-auto mb-6 animated-scale-in" style={{animationDelay: "0.3s"}}></div>
           <p className="text-lg text-gray-600 max-w-3xl mx-auto animated-fade-up" style={{animationDelay: "0.5s"}}>
             Explore our collection of high-quality Mohmand marble, sourced directly from
@@ -143,7 +147,7 @@ const Products = () => {
         
         <Tabs defaultValue="all" className="w-full mb-12 reveal-on-scroll">
           <div className="flex justify-center mb-8 animated-fade-down" style={{animationDelay: "0.3s"}}>
-            <TabsList className="bg-marble-100">
+            <TabsList className="bg-marble-100 shadow-lg hover:shadow-xl transition-all duration-300">
               <TabsTrigger value="all" className="hover-lift">All Products</TabsTrigger>
               <TabsTrigger value="flooring" className="hover-lift">Flooring</TabsTrigger>
               <TabsTrigger value="countertop" className="hover-lift">Countertops</TabsTrigger>
@@ -152,10 +156,10 @@ const Products = () => {
           </div>
           
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-8 reveal-on-scroll animated-fade-up" style={{animationDelay: "0.5s"}}>
-            <div>
+            <div className="transform transition-all duration-500 hover:scale-105">
               <label className="block text-sm font-medium mb-2">Filter by Source:</label>
               <select 
-                className="w-full p-2 border border-gray-300 rounded-md hover:border-gold-400 transition-colors duration-300"
+                className="w-full p-2 border border-gray-300 rounded-md hover:border-gold-400 transition-colors duration-300 shadow-sm focus:ring-2 focus:ring-gold-200"
                 value={selectedSource}
                 onChange={(e) => setSelectedSource(e.target.value)}
               >
@@ -164,10 +168,10 @@ const Products = () => {
                 ))}
               </select>
             </div>
-            <div>
+            <div className="transform transition-all duration-500 hover:scale-105">
               <label className="block text-sm font-medium mb-2">Filter by Color:</label>
               <select 
-                className="w-full p-2 border border-gray-300 rounded-md hover:border-gold-400 transition-colors duration-300"
+                className="w-full p-2 border border-gray-300 rounded-md hover:border-gold-400 transition-colors duration-300 shadow-sm focus:ring-2 focus:ring-gold-200"
                 value={selectedColor}
                 onChange={(e) => setSelectedColor(e.target.value)}
               >
@@ -222,22 +226,29 @@ const Products = () => {
 };
 
 const ProductCard = ({ product }: { product: MarbleProduct }) => {
+  const [isHovered, setIsHovered] = useState(false);
+  
   return (
-    <Card className="marble-card overflow-hidden reveal-on-scroll">
+    <Card 
+      className="marble-card overflow-hidden reveal-on-scroll"
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+    >
       <div className="relative h-64 overflow-hidden">
         <img 
           src={product.image} 
           alt={product.name}
-          className="w-full h-full object-cover transition-transform duration-700 hover:scale-110"
+          className={`w-full h-full object-cover transition-all duration-700 ${isHovered ? 'scale-110 filter brightness-105' : ''}`}
         />
-        <div className="marble-card-overlay">
-          <Button variant="secondary" className="bg-white/80 hover:bg-white hover-lift">
+        <div className={`absolute inset-0 bg-black transition-opacity duration-500 ${isHovered ? 'bg-opacity-20' : 'bg-opacity-0'}`}></div>
+        <div className={`marble-card-overlay transition-all duration-500 ${isHovered ? 'opacity-100' : 'opacity-0'}`}>
+          <Button variant="secondary" className="bg-white/80 hover:bg-white hover-lift transform transition-all duration-300 hover:scale-110">
             View Details
           </Button>
         </div>
       </div>
       <CardContent className="p-6">
-        <h3 className="font-serif text-xl font-medium mb-2">{product.name}</h3>
+        <h3 className="font-serif text-xl font-medium mb-2 hover-shine">{product.name}</h3>
         <p className="text-gray-600 mb-4 text-sm">{product.description}</p>
         <div className="flex justify-between items-center">
           <span className="font-medium text-gold-700">{product.price}</span>
@@ -249,12 +260,12 @@ const ProductCard = ({ product }: { product: MarbleProduct }) => {
       <CardFooter className="bg-marble-50 p-4 flex justify-between">
         <Button 
           variant="outline"
-          className="border-gold-400 text-gold-700 hover:bg-gold-100 hover-lift"
+          className="border-gold-400 text-gold-700 hover:bg-gold-100 hover-lift transition-all duration-300"
         >
           Add to Cart
         </Button>
         <Button 
-          className="bg-green-600 hover:bg-green-700 text-white hover-shine"
+          className="bg-green-600 hover:bg-green-700 text-white hover-shine transition-all duration-300"
         >
           <MessageSquare className="mr-2 h-4 w-4" /> Order Now
         </Button>
