@@ -26,7 +26,7 @@ const Products = () => {
   const products: MarbleProduct[] = [
     {
       id: 1,
-      name: "Ziarat White Marble",
+      name: "Ziarat Marble",
       description: "Premium white marble with subtle gray veining from Ziarat mines",
       price: "Rs. 180-220/sq.ft",
       image: "public/lovable-uploads/9324670b-b749-459f-a322-06569b968d4a.png",
@@ -36,38 +36,38 @@ const Products = () => {
     },
     {
       id: 2,
-      name: "Supreme White Marble",
-      description: "Exquisite pure white marble from Khanqaa region",
+      name: "Ziarat Gray Marble",
+      description: "Exquisite gray marble from the Ziarat region",
       price: "Rs. 220-260/sq.ft",
       image: "public/lovable-uploads/5c0e3084-d1f3-4a30-9ce9-55d72c42e460.png",
       category: "countertop",
-      source: "khanqaa",
-      color: "white"
+      source: "ziarat",
+      color: "gray"
     },
     {
       id: 3,
-      name: "Black & Gold Marble",
-      description: "Sophisticated black marble with striking gold veining",
+      name: "Khanqaa Marble",
+      description: "Sophisticated marble with striking gold veining from Khanqaa",
       price: "Rs. 280-320/sq.ft",
       image: "https://images.unsplash.com/photo-1601354458668-6a9b1b631e0e?q=80&w=2564&auto=format&fit=crop",
       category: "flooring",
-      source: "gumbatay",
-      color: "black"
+      source: "khanqaa",
+      color: "beige"
     },
     {
       id: 4,
-      name: "Jungle Green Marble",
-      description: "Vibrant green marble with unique forest-like patterns",
+      name: "Gumbatay Marble",
+      description: "Vibrant green marble with unique forest-like patterns from Gumbatay",
       price: "Rs. 240-290/sq.ft",
       image: "https://images.unsplash.com/photo-1597844756732-e2cb67775f25?q=80&w=2670&auto=format&fit=crop",
       category: "wall",
-      source: "ziarat",
+      source: "gumbatay",
       color: "green"
     },
     {
       id: 5,
-      name: "Beige Desert Marble",
-      description: "Warm beige marble with soft patterns",
+      name: "Khanqaa Beige Marble",
+      description: "Warm beige marble with soft patterns from Khanqaa mines",
       price: "Rs. 170-210/sq.ft",
       image: "public/lovable-uploads/e66aaa2f-4457-423a-b5f1-260ec52127da.png",
       category: "flooring",
@@ -76,8 +76,8 @@ const Products = () => {
     },
     {
       id: 6,
-      name: "Coral Pink Marble",
-      description: "Elegant pink-toned marble for luxury interiors",
+      name: "Gumbatay Premium Marble",
+      description: "Elegant pink-toned marble for luxury interiors from Gumbatay",
       price: "Rs. 260-310/sq.ft",
       image: "public/lovable-uploads/2ea41a4e-58d7-4f17-ad20-d12f4fe91de1.png",
       category: "wall",

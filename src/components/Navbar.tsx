@@ -17,8 +17,9 @@ const Navbar = () => {
       const scrollPosition = window.scrollY + 100;  // offset for highlighting
       
       sections.forEach(section => {
-        const sectionTop = section.offsetTop;
-        const sectionHeight = section.offsetHeight;
+        // Use type assertions to fix TypeScript errors
+        const sectionTop = (section as HTMLElement).offsetTop;
+        const sectionHeight = (section as HTMLElement).offsetHeight;
         const sectionId = section.getAttribute('id') || '';
         
         if (scrollPosition >= sectionTop && scrollPosition < sectionTop + sectionHeight) {
