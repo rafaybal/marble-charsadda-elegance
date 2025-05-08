@@ -1,6 +1,6 @@
 
 import { Button } from "@/components/ui/button";
-import { ArrowRight, Phone, WhatsApp } from "lucide-react";
+import { ArrowRight, Phone, MessageSquare } from "lucide-react";
 
 const Hero = () => {
   return (
@@ -44,7 +44,7 @@ const Hero = () => {
               size="lg"
               className="bg-white/10 backdrop-blur-sm border-white border hover:bg-white/20"
             >
-              <WhatsApp className="mr-2 h-5 w-5" /> WhatsApp Us
+              <MessageSquare className="mr-2 h-5 w-5" /> Message Us
             </Button>
             
             <Button 

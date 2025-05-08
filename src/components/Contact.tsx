@@ -1,9 +1,8 @@
-
 import React from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { Phone, Mail, MapPin, WhatsApp } from "lucide-react";
+import { Phone, Mail, MapPin, MessageSquare } from "lucide-react";
 
 const Contact = () => {
   const handleSubmit = (e: React.FormEvent) => {
@@ -31,7 +30,7 @@ const Contact = () => {
               <div className="space-y-6">
                 <div className="flex items-center">
                   <div className="h-10 w-10 rounded-full bg-gold-100 flex items-center justify-center mr-4">
-                    <WhatsApp className="h-5 w-5 text-gold-600" />
+                    <MessageSquare className="h-5 w-5 text-gold-600" />
                   </div>
                   <div>
                     <p className="text-sm text-gray-500">WhatsApp</p>

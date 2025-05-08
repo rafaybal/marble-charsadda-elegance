@@ -1,9 +1,8 @@
-
 import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { WhatsApp } from "lucide-react";
+import { MessageSquare } from "lucide-react";
 
 type MarbleProduct = {
   id: number;
@@ -231,7 +230,7 @@ const ProductCard = ({ product }: { product: MarbleProduct }) => {
         <Button 
           className="bg-green-600 hover:bg-green-700 text-white"
         >
-          <WhatsApp className="mr-2 h-4 w-4" /> Order Now
+          <MessageSquare className="mr-2 h-4 w-4" /> Order Now
         </Button>
       </CardFooter>
     </Card>

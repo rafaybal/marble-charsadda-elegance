@@ -1,8 +1,7 @@
-
 import React from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, WhatsApp } from "lucide-react";
+import { ArrowRight, MessageSquare } from "lucide-react";
 
 const OrderProcess = () => {
   const steps = [
@@ -123,7 +122,7 @@ const OrderProcess = () => {
                   variant="outline" 
                   className="border-gold-400 text-gold-700 hover:bg-gold-100"
                 >
-                  <WhatsApp className="mr-2 h-4 w-4" /> Chat with Us
+                  <MessageSquare className="mr-2 h-4 w-4" /> Chat with Us
                 </Button>
               </div>
             </div>
