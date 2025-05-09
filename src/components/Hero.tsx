@@ -34,7 +34,7 @@ const Hero = () => {
         ref={parallaxRef}
         className="absolute inset-0 bg-cover bg-center z-0 parallax-bg"
         style={{
-          backgroundImage: "url('https://images.unsplash.com/photo-1618221118493-9cfa1a1c00da?q=80&w=2832&auto=format&fit=crop')",
+          backgroundImage: "url('public/lovable-uploads/57493d78-b5a8-4201-96f1-ea23e62d43b4.png')",
           backgroundPosition: "center",
           backgroundSize: "cover",
         }}
