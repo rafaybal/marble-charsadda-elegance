@@ -68,13 +68,13 @@ const Index = () => {
         description: "Explore our collection of high-quality marble products",
         duration: 5000,
       });
-    }, 1000);
+    }, 800);
 
     document.addEventListener('click', handleAnchorClick);
     return () => document.removeEventListener('click', handleAnchorClick);
   }, []);
   
-  // Add parallax effect to sections
+  // Add enhanced parallax effect to sections
   useEffect(() => {
     const handleParallax = () => {
       const scrollY = window.scrollY;

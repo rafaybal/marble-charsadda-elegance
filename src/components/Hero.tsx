@@ -1,10 +1,11 @@
 
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Phone, MessageSquare } from "lucide-react";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 
 const Hero = () => {
   const parallaxRef = useRef<HTMLDivElement>(null);
+  const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -14,6 +15,11 @@ const Hero = () => {
         parallaxRef.current.style.transform = `translateY(${scrollPosition * 0.2}px)`;
       }
     };
+
+    // Set visible with a slight delay to trigger animations
+    setTimeout(() => {
+      setIsVisible(true);
+    }, 300);
 
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
@@ -48,29 +54,47 @@ const Hero = () => {
             sourced directly from Pakistan's finest mines.
           </p>
           
-          <div className="flex flex-col md:flex-row gap-4 justify-center stagger-animation">
-            <Button 
-              className="bg-gold-400 hover:bg-gold-500 text-white shadow-lg hover:shadow-xl hover-shine"
-              size="lg"
-            >
-              Shop Now <ArrowRight className="ml-2 h-5 w-5 animated-float" />
-            </Button>
+          {/* CTA Section with new background image */}
+          <div className={`relative mt-12 p-6 rounded-lg overflow-hidden transform transition-all duration-1000 ${isVisible ? 'scale-100 opacity-100' : 'scale-95 opacity-0'}`}>
+            {/* Interior image as background */}
+            <div className="absolute inset-0 bg-cover bg-center" style={{ 
+              backgroundImage: "url('public/lovable-uploads/f78efe67-448f-4a89-b8bd-17ee30743a99.png')",
+              backgroundPosition: "center",
+              backgroundSize: "cover",
+              filter: "brightness(0.85)"
+            }}></div>
             
-            <Button 
-              variant="outline" 
-              size="lg"
-              className="bg-white/10 backdrop-blur-sm border-white border hover:bg-white/20 hover-lift"
-            >
-              <MessageSquare className="mr-2 h-5 w-5" /> Message Us
-            </Button>
+            {/* Overlay for better text visibility */}
+            <div className="absolute inset-0 bg-black bg-opacity-30"></div>
             
-            <Button 
-              variant="outline" 
-              size="lg"
-              className="bg-white/10 backdrop-blur-sm border-white border hover:bg-white/20 hover-lift"
-            >
-              <Phone className="mr-2 h-5 w-5" /> Contact Us
-            </Button>
+            <div className="relative z-10">
+              <h3 className="text-2xl font-serif mb-6 text-white drop-shadow-md">Transform Your Space With Premium Marble</h3>
+              
+              <div className="flex flex-col md:flex-row gap-4 justify-center stagger-animation backdrop-blur-sm p-3 rounded-lg bg-black bg-opacity-20">
+                <Button 
+                  className="bg-gold-400 hover:bg-gold-500 text-white shadow-lg hover:shadow-xl hover-shine"
+                  size="lg"
+                >
+                  Shop Now <ArrowRight className="ml-2 h-5 w-5 animated-float" />
+                </Button>
+                
+                <Button 
+                  variant="outline" 
+                  size="lg"
+                  className="bg-white/10 backdrop-blur-sm border-white border hover:bg-white/20 hover-lift"
+                >
+                  <MessageSquare className="mr-2 h-5 w-5" /> Message Us
+                </Button>
+                
+                <Button 
+                  variant="outline" 
+                  size="lg"
+                  className="bg-white/10 backdrop-blur-sm border-white border hover:bg-white/20 hover-lift"
+                >
+                  <Phone className="mr-2 h-5 w-5" /> Contact Us
+                </Button>
+              </div>
+            </div>
           </div>
         </div>
       </div>
