@@ -56,21 +56,21 @@ const Hero = () => {
           
           {/* CTA Section with new background image */}
           <div className={`relative mt-12 p-6 rounded-lg overflow-hidden transform transition-all duration-1000 ${isVisible ? 'scale-100 opacity-100' : 'scale-95 opacity-0'}`}>
-            {/* Interior image as background */}
+            {/* New luxury marble interior image as background */}
             <div className="absolute inset-0 bg-cover bg-center" style={{ 
-              backgroundImage: "url('public/lovable-uploads/f78efe67-448f-4a89-b8bd-17ee30743a99.png')",
+              backgroundImage: "url('public/lovable-uploads/57493d78-b5a8-4201-96f1-ea23e62d43b4.png')",
               backgroundPosition: "center",
               backgroundSize: "cover",
-              filter: "brightness(0.85)"
+              filter: "brightness(0.9)"
             }}></div>
             
             {/* Overlay for better text visibility */}
-            <div className="absolute inset-0 bg-black bg-opacity-30"></div>
+            <div className="absolute inset-0 bg-black bg-opacity-25"></div>
             
             <div className="relative z-10">
               <h3 className="text-2xl font-serif mb-6 text-white drop-shadow-md">Transform Your Space With Premium Marble</h3>
               
-              <div className="flex flex-col md:flex-row gap-4 justify-center stagger-animation backdrop-blur-sm p-3 rounded-lg bg-black bg-opacity-20">
+              <div className="flex flex-col md:flex-row gap-4 justify-center stagger-animation backdrop-blur-sm p-4 rounded-lg bg-black bg-opacity-15">
                 <Button 
                   className="bg-gold-400 hover:bg-gold-500 text-white shadow-lg hover:shadow-xl hover-shine"
                   size="lg"
