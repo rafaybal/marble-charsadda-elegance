@@ -1,4 +1,3 @@
-
 import { Card, CardContent } from "@/components/ui/card";
 
 const About = () => {
@@ -95,39 +94,79 @@ const About = () => {
       
       <div className="container-custom mt-16">
         <div className="text-center mb-12">
-          <h2 className="text-3xl md:text-4xl font-serif font-semibold mb-4">History of Ziarat Marble</h2>
-          <div className="w-24 h-1 bg-gold-400 mx-auto mb-6"></div>
+          <h2 className="text-3xl md:text-4xl font-serif font-semibold mb-4">
+            <span className="bg-gradient-to-r from-gold-400 to-gold-600 bg-clip-text text-transparent">History of Ziarat Marble</span>
+          </h2>
+          <div className="w-24 h-1 bg-gradient-to-r from-gold-400 to-gold-600 mx-auto mb-6"></div>
         </div>
         
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-          <div className="order-2 md:order-1 relative">
-            <div className="rounded-lg overflow-hidden shadow-xl">
-              <img 
-                src="https://images.unsplash.com/photo-1487958449943-2429e8be8625?q=80&w=2670&auto=format&fit=crop" 
-                alt="Historical marble architecture" 
-                className="w-full h-auto"
-              />
+          <div className="order-2 md:order-1 relative reveal-from-left">
+            <div className="rounded-lg overflow-hidden shadow-xl transform hover:scale-105 transition-all duration-500 group">
+              <div className="relative">
+                <img 
+                  src="public/lovable-uploads/fd036fa4-938a-4f1d-aac2-104110215b0e.png" 
+                  alt="Ziarat marble factory and processing facility" 
+                  className="w-full h-auto"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                <div className="absolute bottom-0 left-0 p-4 text-white opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-y-4 group-hover:translate-y-0">
+                  <p className="text-sm font-medium">Our modern marble processing facility</p>
+                </div>
+              </div>
             </div>
-            <div className="absolute -bottom-6 -right-6 w-32 h-32 bg-gold-100 rounded-full z-[-1]"></div>
-            <div className="absolute -top-6 -left-6 w-24 h-24 bg-marble-200 rounded-full z-[-1]"></div>
+            
+            {/* Decorative elements */}
+            <div className="absolute -bottom-6 -right-6 w-32 h-32 bg-gradient-to-br from-gold-100 to-gold-200 rounded-full z-[-1] opacity-70"></div>
+            <div className="absolute -top-6 -left-6 w-24 h-24 bg-gradient-to-tr from-marble-200 to-marble-100 rounded-full z-[-1] opacity-70"></div>
           </div>
           
-          <div className="order-1 md:order-2 prose max-w-none">
-            <p className="mb-4 text-lg">
+          <div className="order-1 md:order-2 prose max-w-none reveal-from-right">
+            <h3 className="font-serif text-2xl font-medium mb-4 text-gold-600">A Legacy of Excellence</h3>
+            <p className="mb-4 text-lg leading-relaxed">
               For centuries, Ziarat marble has been celebrated for its exceptional quality and distinctive patterns, 
               making it a symbol of elegance and luxury throughout Pakistan's architectural history.
             </p>
+            
+            <div className="p-4 border-l-4 border-gold-400 bg-marble-100 rounded-r-lg my-6">
+              <p className="italic text-gray-700">
+                "The stone from Mohmand's quarries has adorned some of the most prestigious buildings across the country,
+                from historic mosques to luxury residences."
+              </p>
+            </div>
+            
             <p className="mb-4">
-              This premium stone has adorned some of the most prestigious buildings across the country, from 
-              historic mosques and government buildings to luxury residences. The quarries of Mohmand have 
-              been providing this treasured material for generations, with mining techniques refined over time 
-              to preserve the natural beauty and structural integrity of each piece.
+              This premium stone has been a cornerstone of Pakistani architecture for generations, with mining techniques refined 
+              over time to preserve the natural beauty and structural integrity of each piece.
             </p>
+            
+            <div className="grid grid-cols-3 gap-3 my-6">
+              <div className="bg-marble-100 p-3 rounded-lg text-center">
+                <span className="block text-2xl font-bold text-gold-600">100+</span>
+                <span className="text-sm text-gray-600">Years of Heritage</span>
+              </div>
+              <div className="bg-marble-100 p-3 rounded-lg text-center">
+                <span className="block text-2xl font-bold text-gold-600">3</span>
+                <span className="text-sm text-gray-600">Major Quarries</span>
+              </div>
+              <div className="bg-marble-100 p-3 rounded-lg text-center">
+                <span className="block text-2xl font-bold text-gold-600">1000+</span>
+                <span className="text-sm text-gray-600">Projects Completed</span>
+              </div>
+            </div>
+            
             <p>
               Today, we continue this rich tradition by bringing authentic Ziarat marble directly from the source 
               to customers who appreciate its historical significance and timeless appeal. Each slab tells a story 
               of Pakistan's natural heritage and craftsmanship excellence.
             </p>
+            
+            <button className="mt-4 cta-button hover-lift flex items-center gap-2 group">
+              <span>Explore Our Heritage</span>
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 transform group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
+              </svg>
+            </button>
           </div>
         </div>
       </div>
