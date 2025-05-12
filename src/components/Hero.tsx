@@ -2,11 +2,78 @@
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Phone, MessageSquare, Award, MapPin, Star } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
+import { useToast } from "@/components/ui/use-toast";
+import { Link } from "react-router-dom";
+import { 
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogFooter,
+  DialogClose
+} from "@/components/ui/dialog";
+import { Textarea } from "@/components/ui/textarea";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 
 const Hero = () => {
+  const { toast } = useToast();
   const parallaxRef = useRef<HTMLDivElement>(null);
   const [isVisible, setIsVisible] = useState(false);
   const [loaded, setLoaded] = useState(false);
+  const [showContactDialog, setShowContactDialog] = useState(false);
+  const [showMessageDialog, setShowMessageDialog] = useState(false);
+  const [messageForm, setMessageForm] = useState({
+    name: "",
+    email: "",
+    message: ""
+  });
+  const [contactForm, setContactForm] = useState({
+    name: "",
+    phone: "",
+    inquiry: ""
+  });
+
+  // Handle form input changes
+  const handleMessageChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target;
+    setMessageForm(prev => ({
+      ...prev,
+      [name]: value
+    }));
+  };
+
+  const handleContactChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target;
+    setContactForm(prev => ({
+      ...prev,
+      [name]: value
+    }));
+  };
+
+  // Handle form submissions
+  const handleMessageSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    toast({
+      title: "Message Sent",
+      description: `Thanks for your message, ${messageForm.name}! We'll respond to ${messageForm.email} shortly.`,
+      duration: 5000,
+    });
+    setShowMessageDialog(false);
+    setMessageForm({ name: "", email: "", message: "" });
+  };
+
+  const handleContactSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    toast({
+      title: "Contact Request Received",
+      description: `Thanks ${contactForm.name}! We'll call you at ${contactForm.phone} soon.`,
+      duration: 5000,
+    });
+    setShowContactDialog(false);
+    setContactForm({ name: "", phone: "", inquiry: "" });
+  };
 
   useEffect(() => {
     const handleScroll = () => {
@@ -101,28 +168,44 @@ const Hero = () => {
               <h3 className="text-2xl font-serif mb-6 text-white drop-shadow-md">Transform Your Space With Premium Marble</h3>
               
               <div className="flex flex-col md:flex-row gap-4 justify-center stagger-animation backdrop-blur-sm p-6 rounded-lg bg-black/15">
+                {/* Shop Now Button - Scrolls to Products section */}
                 <Button 
                   className="bg-gold-400 hover:bg-gold-500 text-white shadow-lg hover:shadow-xl hover-shine group relative overflow-hidden"
                   size="lg"
+                  onClick={() => {
+                    const productsSection = document.getElementById('products');
+                    if (productsSection) {
+                      productsSection.scrollIntoView({ behavior: 'smooth' });
+                      toast({
+                        title: "Explore Our Products",
+                        description: "Browse our premium marble collection",
+                        duration: 3000,
+                      });
+                    }
+                  }}
                 >
                   <span className="relative z-10">Shop Now</span>
                   <ArrowRight className="ml-2 h-5 w-5 animated-float relative z-10 group-hover:translate-x-1 transition-transform" />
                   <div className="absolute inset-0 bg-gradient-to-r from-gold-500 to-gold-400 opacity-0 group-hover:opacity-100 transition-opacity"></div>
                 </Button>
                 
+                {/* Message Us Button - Opens Message Dialog */}
                 <Button 
                   variant="outline" 
                   size="lg"
                   className="bg-white/10 backdrop-blur-sm border-white border hover:bg-white/20 hover-lift group"
+                  onClick={() => setShowMessageDialog(true)}
                 >
                   <MessageSquare className="mr-2 h-5 w-5 group-hover:scale-110 transition-transform" /> 
                   <span>Message Us</span>
                 </Button>
                 
+                {/* Contact Us Button - Opens Contact Dialog */}
                 <Button 
                   variant="outline" 
                   size="lg"
                   className="bg-white/10 backdrop-blur-sm border-white border hover:bg-white/20 hover-lift group"
+                  onClick={() => setShowContactDialog(true)}
                 >
                   <Phone className="mr-2 h-5 w-5 group-hover:rotate-12 transition-transform" /> 
                   <span>Contact Us</span>
@@ -150,6 +233,124 @@ const Hero = () => {
       {/* Decorative elements */}
       <div className="absolute top-20 left-10 w-20 h-20 border border-gold-400/20 rounded-full animate-ping opacity-30 hidden lg:block"></div>
       <div className="absolute bottom-40 right-20 w-32 h-32 border-2 border-gold-400/20 rounded-full animate-pulse opacity-20 hidden lg:block"></div>
+
+      {/* Message Us Dialog */}
+      <Dialog open={showMessageDialog} onOpenChange={setShowMessageDialog}>
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle className="text-xl font-serif">Send Us a Message</DialogTitle>
+            <DialogDescription>
+              We'll get back to you as soon as possible.
+            </DialogDescription>
+          </DialogHeader>
+          <form onSubmit={handleMessageSubmit} className="space-y-4">
+            <div className="grid gap-4">
+              <div className="grid gap-2">
+                <Label htmlFor="name">Name</Label>
+                <Input 
+                  id="name" 
+                  name="name"
+                  value={messageForm.name}
+                  onChange={handleMessageChange}
+                  placeholder="Your name" 
+                  required
+                />
+              </div>
+              <div className="grid gap-2">
+                <Label htmlFor="email">Email</Label>
+                <Input 
+                  id="email" 
+                  name="email"
+                  type="email"
+                  value={messageForm.email}
+                  onChange={handleMessageChange}
+                  placeholder="Your email address" 
+                  required
+                />
+              </div>
+              <div className="grid gap-2">
+                <Label htmlFor="message">Message</Label>
+                <Textarea 
+                  id="message" 
+                  name="message"
+                  value={messageForm.message}
+                  onChange={handleMessageChange}
+                  placeholder="How can we help you?" 
+                  className="min-h-[100px]"
+                  required
+                />
+              </div>
+            </div>
+            <DialogFooter className="sm:justify-between">
+              <DialogClose asChild>
+                <Button type="button" variant="outline">Cancel</Button>
+              </DialogClose>
+              <Button type="submit" className="bg-gold-500 hover:bg-gold-600">
+                Send Message
+              </Button>
+            </DialogFooter>
+          </form>
+        </DialogContent>
+      </Dialog>
+
+      {/* Contact Us Dialog */}
+      <Dialog open={showContactDialog} onOpenChange={setShowContactDialog}>
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle className="text-xl font-serif">Contact Us</DialogTitle>
+            <DialogDescription>
+              Leave your details and we'll call you back shortly.
+            </DialogDescription>
+          </DialogHeader>
+          <form onSubmit={handleContactSubmit} className="space-y-4">
+            <div className="grid gap-4">
+              <div className="grid gap-2">
+                <Label htmlFor="contact-name">Name</Label>
+                <Input 
+                  id="contact-name" 
+                  name="name"
+                  value={contactForm.name}
+                  onChange={handleContactChange}
+                  placeholder="Your name" 
+                  required
+                />
+              </div>
+              <div className="grid gap-2">
+                <Label htmlFor="phone">Phone Number</Label>
+                <Input 
+                  id="phone" 
+                  name="phone"
+                  type="tel"
+                  value={contactForm.phone}
+                  onChange={handleContactChange}
+                  placeholder="Your phone number" 
+                  required
+                />
+              </div>
+              <div className="grid gap-2">
+                <Label htmlFor="inquiry">Inquiry Type</Label>
+                <Textarea 
+                  id="inquiry" 
+                  name="inquiry"
+                  value={contactForm.inquiry}
+                  onChange={handleContactChange}
+                  placeholder="What would you like to know about our products?" 
+                  className="min-h-[80px]"
+                  required
+                />
+              </div>
+            </div>
+            <DialogFooter className="sm:justify-between">
+              <DialogClose asChild>
+                <Button type="button" variant="outline">Cancel</Button>
+              </DialogClose>
+              <Button type="submit" className="bg-gold-500 hover:bg-gold-600">
+                Request Call Back
+              </Button>
+            </DialogFooter>
+          </form>
+        </DialogContent>
+      </Dialog>
     </section>
   );
 };
