@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { ArrowRight, MessageSquare, Check, Truck, Package, CreditCard, Image, ShoppingCart } from "lucide-react";
 import { Textarea } from "@/components/ui/textarea";
 import { toast } from "@/components/ui/use-toast";
+import { AspectRatio } from "@/components/ui/aspect-ratio";
 
 const OrderProcess = () => {
   const [activeStep, setActiveStep] = useState<number | null>(null);
@@ -236,15 +237,18 @@ const OrderProcess = () => {
                 </div>
               </div>
             </div>
-            <div 
-              className="bg-cover bg-center h-full min-h-[300px] relative overflow-hidden group"
-            >
-              <div className="absolute inset-0 bg-black opacity-20 group-hover:opacity-10 transition-opacity duration-500"></div>
-              <img 
-                src="https://images.unsplash.com/photo-1584729183765-5be83cf96456?q=80&w=2574&auto=format&fit=crop" 
-                alt="Delivery service" 
-                className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" 
-              />
+            <div className="relative h-full min-h-[300px] overflow-hidden group">
+              <AspectRatio ratio={16/9} className="h-full">
+                <img 
+                  src="/public/lovable-uploads/e5d5aabe-2944-420c-987f-00958b9adfa1.png" 
+                  alt="Shipping containers at port" 
+                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-marble-900/70 to-transparent"></div>
+                <div className="absolute bottom-4 left-4 right-4 text-white shadow-text">
+                  <p className="text-sm font-semibold opacity-80">Global shipping network ensures timely delivery</p>
+                </div>
+              </AspectRatio>
             </div>
           </div>
         </div>
