@@ -1,14 +1,68 @@
-import React from "react";
+
+import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Phone, Mail, MapPin, MessageSquare } from "lucide-react";
+import { useToast } from "@/components/ui/use-toast";
 
 const Contact = () => {
-  const handleSubmit = (e: React.FormEvent) => {
+  const { toast } = useToast();
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    phone: "",
+    subject: "",
+    message: ""
+  });
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { id, value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [id]: value
+    }));
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // This would be integrated with actual form submission in production
-    console.log("Form submitted");
+    setIsSubmitting(true);
+    
+    try {
+      // In a real-world scenario, this would connect to a backend service
+      // For now, we'll simulate sending an email with a timeout
+      console.log("Sending form data to fayazkhan@hotmail.com:", formData);
+      
+      // Simulate API call
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      
+      // Show success message
+      toast({
+        title: "Message Sent Successfully!",
+        description: "Thank you for contacting us. We will get back to you soon.",
+        duration: 5000,
+      });
+      
+      // Reset form
+      setFormData({
+        name: "",
+        email: "",
+        phone: "",
+        subject: "",
+        message: ""
+      });
+    } catch (error) {
+      console.error("Error sending message:", error);
+      toast({
+        title: "Error Sending Message",
+        description: "There was a problem sending your message. Please try again later.",
+        variant: "destructive",
+        duration: 5000,
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -58,8 +112,8 @@ const Contact = () => {
                   </div>
                   <div>
                     <p className="text-sm text-gray-500">Email</p>
-                    <a href="mailto:info@mohmandmarble.pk" className="font-medium hover:text-gold-600 transition-colors">
-                      info@mohmandmarble.pk
+                    <a href="mailto:fayazkhan@hotmail.com" className="font-medium hover:text-gold-600 transition-colors">
+                      fayazkhan@hotmail.com
                     </a>
                   </div>
                 </div>
@@ -71,8 +125,9 @@ const Contact = () => {
                   <div>
                     <p className="text-sm text-gray-500">Address</p>
                     <p className="font-medium">
-                      Subhan Khwar Industrial Estate, <br />
-                      Charsadda, KP, Pakistan
+                      Subhan Khwar Industrial State, <br />
+                      PO and Tehsil Shabqadar, <br />
+                      District Charsadda, Pakistan
                     </p>
                   </div>
                 </div>
@@ -140,6 +195,8 @@ const Contact = () => {
                       placeholder="Your name" 
                       className="border-gray-300 focus:border-gold-400 focus:ring-gold-400"
                       required
+                      value={formData.name}
+                      onChange={handleChange}
                     />
                   </div>
                   <div className="space-y-2">
@@ -150,6 +207,8 @@ const Contact = () => {
                       placeholder="Your email" 
                       className="border-gray-300 focus:border-gold-400 focus:ring-gold-400"
                       required
+                      value={formData.email}
+                      onChange={handleChange}
                     />
                   </div>
                 </div>
@@ -160,6 +219,8 @@ const Contact = () => {
                     id="phone" 
                     placeholder="Your phone number" 
                     className="border-gray-300 focus:border-gold-400 focus:ring-gold-400"
+                    value={formData.phone}
+                    onChange={handleChange}
                   />
                 </div>
                 
@@ -170,6 +231,8 @@ const Contact = () => {
                     placeholder="Message subject" 
                     className="border-gray-300 focus:border-gold-400 focus:ring-gold-400"
                     required
+                    value={formData.subject}
+                    onChange={handleChange}
                   />
                 </div>
                 
@@ -180,6 +243,8 @@ const Contact = () => {
                     placeholder="Your message" 
                     className="border-gray-300 focus:border-gold-400 focus:ring-gold-400 min-h-[150px]"
                     required
+                    value={formData.message}
+                    onChange={handleChange}
                   />
                 </div>
                 
@@ -198,8 +263,9 @@ const Contact = () => {
                 <Button 
                   type="submit" 
                   className="w-full bg-gold-400 hover:bg-gold-500 text-white py-3"
+                  disabled={isSubmitting}
                 >
-                  Send Message
+                  {isSubmitting ? "Sending..." : "Send Message"}
                 </Button>
               </form>
             </div>
