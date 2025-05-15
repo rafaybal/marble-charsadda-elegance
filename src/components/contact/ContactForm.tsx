@@ -1,8 +1,7 @@
 
 import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
+import FormInput from "./FormInput";
 
 type ContactFormProps = {
   toast: any; // Using any for now as the toast type is complex
@@ -78,65 +77,51 @@ const ContactForm = ({ toast }: ContactFormProps) => {
       <h3 className="text-2xl font-serif mb-6">Send Us a Message</h3>
       <form onSubmit={handleSubmit} className="space-y-6">
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-          <div className="space-y-2">
-            <label htmlFor="name" className="text-sm font-medium">Name</label>
-            <Input 
-              id="name" 
-              placeholder="Your name" 
-              className="border-gray-300 focus:border-gold-400 focus:ring-gold-400"
-              required
-              value={formData.name}
-              onChange={handleChange}
-            />
-          </div>
-          <div className="space-y-2">
-            <label htmlFor="email" className="text-sm font-medium">Email</label>
-            <Input 
-              id="email" 
-              type="email" 
-              placeholder="Your email" 
-              className="border-gray-300 focus:border-gold-400 focus:ring-gold-400"
-              required
-              value={formData.email}
-              onChange={handleChange}
-            />
-          </div>
-        </div>
-        
-        <div className="space-y-2">
-          <label htmlFor="phone" className="text-sm font-medium">Phone Number</label>
-          <Input 
-            id="phone" 
-            placeholder="Your phone number" 
-            className="border-gray-300 focus:border-gold-400 focus:ring-gold-400"
-            value={formData.phone}
+          <FormInput
+            id="name"
+            label="Name"
+            placeholder="Your name"
+            value={formData.name}
             onChange={handleChange}
-          />
-        </div>
-        
-        <div className="space-y-2">
-          <label htmlFor="subject" className="text-sm font-medium">Subject</label>
-          <Input 
-            id="subject" 
-            placeholder="Message subject" 
-            className="border-gray-300 focus:border-gold-400 focus:ring-gold-400"
             required
-            value={formData.subject}
+          />
+          <FormInput
+            id="email"
+            label="Email"
+            type="email"
+            placeholder="Your email"
+            value={formData.email}
             onChange={handleChange}
+            required
           />
         </div>
         
-        <div className="space-y-2">
-          <label htmlFor="message" className="text-sm font-medium">Message</label>
-          <Textarea 
-            id="message" 
-            placeholder="Your message" 
-            className="border-gray-300 focus:border-gold-400 focus:ring-gold-400 min-h-[150px]"
-            required
-            value={formData.message}
-            onChange={handleChange}
-          />
-        </div>
+        <FormInput
+          id="phone"
+          label="Phone Number"
+          placeholder="Your phone number"
+          value={formData.phone}
+          onChange={handleChange}
+        />
+        
+        <FormInput
+          id="subject"
+          label="Subject"
+          placeholder="Message subject"
+          value={formData.subject}
+          onChange={handleChange}
+          required
+        />
+        
+        <FormInput
+          id="message"
+          label="Message"
+          placeholder="Your message"
+          value={formData.message}
+          onChange={handleChange}
+          required
+          isTextarea
+        />
         
         <div className="flex items-center space-x-2">
           <input

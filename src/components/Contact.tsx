@@ -1,12 +1,8 @@
 
 import React from "react";
-import ContactForm from "./contact/ContactForm";
-import ContactInfo from "./contact/ContactInfo";
-import { useToast } from "@/components/ui/use-toast";
+import ContactContainer from "./contact/ContactContainer";
 
 const Contact = () => {
-  const { toast } = useToast();
-
   return (
     <section id="contact" className="section-padding bg-white">
       <div className="container-custom">
@@ -19,10 +15,7 @@ const Contact = () => {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
-          <ContactInfo />
-          <ContactForm toast={toast} />
-        </div>
+        <ContactContainer />
       </div>
     </section>
   );
