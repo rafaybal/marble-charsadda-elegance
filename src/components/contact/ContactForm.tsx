@@ -35,7 +35,7 @@ const ContactForm = ({ toast }: ContactFormProps) => {
       // This uses the browser's built-in mailto functionality as a fallback
       // In a production environment, you would use a proper email service
       
-      const mailtoLink = `mailto:fayazkhan@hotmail.com?subject=${encodeURIComponent(formData.subject)}&body=${encodeURIComponent(
+      const mailtoLink = `mailto:ziaratwhite8@gmail.com?subject=${encodeURIComponent(formData.subject)}&body=${encodeURIComponent(
         `Name: ${formData.name}\nEmail: ${formData.email}\nPhone: ${formData.phone}\n\n${formData.message}`
       )}`;
       

@@ -55,22 +55,42 @@ const Hero = () => {
   // Handle form submissions
   const handleMessageSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    
+    // Create mailto link with the new email
+    const mailtoLink = `mailto:ziaratwhite8@gmail.com?subject=${encodeURIComponent(`Message from ${messageForm.name}`)}&body=${encodeURIComponent(
+      `Name: ${messageForm.name}\nEmail: ${messageForm.email}\n\n${messageForm.message}`
+    )}`;
+    
+    // Open the default email client
+    window.open(mailtoLink, '_blank');
+    
     toast({
-      title: "Message Sent",
-      description: `Thanks for your message, ${messageForm.name}! We'll respond to ${messageForm.email} shortly.`,
+      title: "Message Action Required",
+      description: `Please send the email that opened in your email client to complete the process.`,
       duration: 5000,
     });
+    
     setShowMessageDialog(false);
     setMessageForm({ name: "", email: "", message: "" });
   };
 
   const handleContactSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    
+    // Create mailto link with the new email
+    const mailtoLink = `mailto:ziaratwhite8@gmail.com?subject=${encodeURIComponent(`Contact Request from ${contactForm.name}`)}&body=${encodeURIComponent(
+      `Name: ${contactForm.name}\nPhone: ${contactForm.phone}\nInquiry: ${contactForm.inquiry}`
+    )}`;
+    
+    // Open the default email client
+    window.open(mailtoLink, '_blank');
+    
     toast({
       title: "Contact Request Received",
-      description: `Thanks ${contactForm.name}! We'll call you at ${contactForm.phone} soon.`,
+      description: `Please send the email that opened in your email client to complete the process.`,
       duration: 5000,
     });
+    
     setShowContactDialog(false);
     setContactForm({ name: "", phone: "", inquiry: "" });
   };
