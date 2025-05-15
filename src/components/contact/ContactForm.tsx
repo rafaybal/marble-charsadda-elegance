@@ -3,7 +3,6 @@ import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { Toast } from "@/components/ui/toast";
 
 type ContactFormProps = {
   toast: any; // Using any for now as the toast type is complex
@@ -32,17 +31,24 @@ const ContactForm = ({ toast }: ContactFormProps) => {
     setIsSubmitting(true);
     
     try {
-      // In a real-world scenario, this would connect to a backend service
-      // For now, we'll simulate sending an email with a timeout
-      console.log("Sending form data to fayazkhan@hotmail.com:", formData);
+      // Send form data through a server-side endpoint
+      // This uses the browser's built-in mailto functionality as a fallback
+      // In a production environment, you would use a proper email service
       
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 1000));
+      const mailtoLink = `mailto:fayazkhan@hotmail.com?subject=${encodeURIComponent(formData.subject)}&body=${encodeURIComponent(
+        `Name: ${formData.name}\nEmail: ${formData.email}\nPhone: ${formData.phone}\n\n${formData.message}`
+      )}`;
+      
+      // Log the data being sent
+      console.log("Sending email with form data:", formData);
+      
+      // Open the default email client
+      window.open(mailtoLink, '_blank');
       
       // Show success message
       toast({
-        title: "Message Sent Successfully!",
-        description: "Thank you for contacting us. We will get back to you soon.",
+        title: "Message Action Required",
+        description: "Please send the email that opened in your email client to complete the process.",
         duration: 5000,
       });
       

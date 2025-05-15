@@ -1,4 +1,3 @@
-
 import { useEffect, useState } from "react";
 import Navbar from "../components/Navbar";
 import Hero from "../components/Hero";
@@ -64,7 +63,7 @@ const Index = () => {
     setTimeout(() => {
       setPageLoaded(true);
       toast({
-        title: "Welcome to Premium Marble",
+        title: "Welcome to Ziarat White",
         description: "Explore our collection of high-quality marble products",
         duration: 5000,
       });
