@@ -16,8 +16,8 @@ const ContactInfo = () => {
             </div>
             <div>
               <p className="text-sm text-gray-500">WhatsApp</p>
-              <a href="https://wa.me/+923001234567" className="font-medium hover:text-gold-600 transition-colors">
-                +92 300 123 4567
+              <a href="https://wa.me/+923469655623" className="font-medium hover:text-gold-600 transition-colors">
+                +92 346 965 5623
               </a>
             </div>
           </div>
@@ -28,8 +28,8 @@ const ContactInfo = () => {
             </div>
             <div>
               <p className="text-sm text-gray-500">Phone</p>
-              <a href="tel:+923001234567" className="font-medium hover:text-gold-600 transition-colors">
-                +92 300 123 4567
+              <a href="tel:+923469655623" className="font-medium hover:text-gold-600 transition-colors">
+                +92 346 965 5623
               </a>
             </div>
           </div>

@@ -1,4 +1,3 @@
-
 import React from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -20,7 +19,9 @@ const Footer = () => {
             </p>
             <div className="flex space-x-4">
               <a 
-                href="#" 
+                href="https://www.facebook.com/profile.php?id=100092357582115" 
+                target="_blank"
+                rel="noopener noreferrer"
                 aria-label="Facebook"
                 className="h-10 w-10 rounded-full bg-marble-800 flex items-center justify-center hover:bg-gold-600 transition-colors"
               >
