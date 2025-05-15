@@ -124,7 +124,7 @@ const Hero = () => {
           </div>
           
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold font-serif mb-6 animated-fade-down shadow-text" style={{animationDelay: "0.3s"}}>
-            Premium Mohmand Marble—<br className="hidden md:block" />
+            Premium Ziarat White—<br className="hidden md:block" />
             <span className="text-gold-300 animated-fade-up relative inline-block" style={{animationDelay: "0.6s"}}>
               Delivered Across Pakistan
               <div className="absolute -bottom-2 left-0 w-full h-[2px] bg-gradient-to-r from-transparent via-gold-400 to-transparent"></div>
@@ -132,7 +132,7 @@ const Hero = () => {
           </h1>
           
           <p className="text-lg md:text-xl opacity-90 mb-8 max-w-2xl mx-auto animated-fade-up text-marble-50" style={{animationDelay: "0.8s"}}>
-            Discover the timeless elegance and unparalleled quality of authentic Mohmand marble, 
+            Discover the timeless elegance and unparalleled quality of authentic Ziarat White marble, 
             sourced directly from Pakistan's finest mines.
           </p>
           

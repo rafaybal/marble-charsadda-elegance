@@ -56,8 +56,8 @@ const Navbar = () => {
         {/* Logo */}
         <div className="flex-shrink-0">
           <a href="#home" className="flex items-center">
-            <span className="font-serif text-2xl text-gold-600 font-bold">Mohmand</span>
-            <span className="font-serif text-2xl ml-1">Marble</span>
+            <span className="font-serif text-2xl text-gold-600 font-bold">Ziarat</span>
+            <span className="font-serif text-2xl ml-1">White</span>
           </a>
         </div>
 

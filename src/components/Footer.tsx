@@ -11,11 +11,11 @@ const Footer = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
           <div className="space-y-6">
             <div className="flex items-center">
-              <span className="font-serif text-2xl text-gold-400 font-bold">Mohmand</span>
-              <span className="font-serif text-2xl ml-1 text-white">Marble</span>
+              <span className="font-serif text-2xl text-gold-400 font-bold">Ziarat</span>
+              <span className="font-serif text-2xl ml-1 text-white">White</span>
             </div>
             <p className="text-marble-300">
-              Premium quality Mohmand marble sourced directly from Pakistan's finest mines. 
+              Premium quality Ziarat White marble sourced directly from Pakistan's finest mines. 
               Delivering excellence and elegance across Pakistan.
             </p>
             <div className="flex space-x-4">
@@ -132,7 +132,7 @@ const Footer = () => {
 
         <div className="mt-16 pt-8 border-t border-marble-800 flex flex-col md:flex-row justify-between items-center">
           <div className="text-marble-400 text-sm mb-4 md:mb-0">
-            © {new Date().getFullYear()} Mohmand Marble. All rights reserved.
+            © {new Date().getFullYear()} Ziarat White. All rights reserved.
           </div>
           <div className="flex space-x-6 text-sm">
             <a href="#" className="text-marble-400 hover:text-gold-400 transition-colors">Privacy Policy</a>
