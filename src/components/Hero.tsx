@@ -1,4 +1,3 @@
-
 import { useEffect, useRef, useState } from "react";
 import { useToast } from "@/hooks/use-toast";
 import HeroContent from "./hero/HeroContent";
@@ -45,43 +44,49 @@ const Hero = () => {
   const handleMessageSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     
-    // Create mailto link with the new email
+    // Create mailto link and open directly in the current window
     const mailtoLink = `mailto:ziaratwhite8@gmail.com?subject=${encodeURIComponent(`Message from ${messageForm.name}`)}&body=${encodeURIComponent(
       `Name: ${messageForm.name}\nEmail: ${messageForm.email}\n\n${messageForm.message}`
     )}`;
     
-    // Open the default email client
-    window.open(mailtoLink, '_blank');
+    // Open in the same window to prevent navigation issues
+    window.location.href = mailtoLink;
     
     toast({
-      title: "Message Action Required",
-      description: `Please send the email that opened in your email client to complete the process.`,
+      title: "Email Client Opened",
+      description: "Please complete sending the email in your email client.",
       duration: 5000,
     });
     
-    setShowMessageDialog(false);
-    setMessageForm({ name: "", email: "", message: "" });
+    // Close dialog and reset form after a short delay
+    setTimeout(() => {
+      setShowMessageDialog(false);
+      setMessageForm({ name: "", email: "", message: "" });
+    }, 1000);
   };
 
   const handleContactSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     
-    // Create mailto link with the new email
+    // Create mailto link and open directly in the current window
     const mailtoLink = `mailto:ziaratwhite8@gmail.com?subject=${encodeURIComponent(`Contact Request from ${contactForm.name}`)}&body=${encodeURIComponent(
       `Name: ${contactForm.name}\nPhone: ${contactForm.phone}\nInquiry: ${contactForm.inquiry}`
     )}`;
     
-    // Open the default email client
-    window.open(mailtoLink, '_blank');
+    // Open in the same window to prevent navigation issues
+    window.location.href = mailtoLink;
     
     toast({
-      title: "Contact Request Received",
-      description: `Please send the email that opened in your email client to complete the process.`,
+      title: "Email Client Opened",
+      description: "Please complete sending the email in your email client.",
       duration: 5000,
     });
     
-    setShowContactDialog(false);
-    setContactForm({ name: "", phone: "", inquiry: "" });
+    // Close dialog and reset form after a short delay
+    setTimeout(() => {
+      setShowContactDialog(false);
+      setContactForm({ name: "", phone: "", inquiry: "" });
+    }, 1000);
   };
 
   useEffect(() => {

@@ -30,10 +30,8 @@ const ContactForm = ({ toast }: ContactFormProps) => {
     setIsSubmitting(true);
     
     try {
-      // Send form data through a server-side endpoint
-      // This uses the browser's built-in mailto functionality as a fallback
-      // In a production environment, you would use a proper email service
-      
+      // Directly send email using the form data
+      // This will show a native email client popup with the data pre-filled
       const mailtoLink = `mailto:ziaratwhite8@gmail.com?subject=${encodeURIComponent(formData.subject)}&body=${encodeURIComponent(
         `Name: ${formData.name}\nEmail: ${formData.email}\nPhone: ${formData.phone}\n\n${formData.message}`
       )}`;
@@ -41,33 +39,36 @@ const ContactForm = ({ toast }: ContactFormProps) => {
       // Log the data being sent
       console.log("Sending email with form data:", formData);
       
-      // Open the default email client
-      window.open(mailtoLink, '_blank');
+      // Open email client in the same window to prevent navigation away
+      window.location.href = mailtoLink;
       
       // Show success message
       toast({
-        title: "Message Action Required",
-        description: "Please send the email that opened in your email client to complete the process.",
+        title: "Email Client Opened",
+        description: "Please complete sending the email in your email client.",
         duration: 5000,
       });
       
-      // Reset form
-      setFormData({
-        name: "",
-        email: "",
-        phone: "",
-        subject: "",
-        message: ""
-      });
+      // Reset form after short delay to ensure the mailto has time to open
+      setTimeout(() => {
+        setFormData({
+          name: "",
+          email: "",
+          phone: "",
+          subject: "",
+          message: ""
+        });
+        setIsSubmitting(false);
+      }, 1000);
+      
     } catch (error) {
       console.error("Error sending message:", error);
       toast({
         title: "Error Sending Message",
-        description: "There was a problem sending your message. Please try again later.",
+        description: "There was a problem opening your email client. Please try again.",
         variant: "destructive",
         duration: 5000,
       });
-    } finally {
       setIsSubmitting(false);
     }
   };
