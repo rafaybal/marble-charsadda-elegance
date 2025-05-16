@@ -43,21 +43,31 @@ const ContactForm = ({ toast }: ContactFormProps) => {
       console.log("Database submission result:", dbResult);
       console.log("Email sending result:", emailResult);
       
-      // Show success message
-      toast({
-        title: "Message Sent Successfully",
-        description: "Thank you! We'll get back to you soon.",
-        duration: 5000,
-      });
-      
-      // Reset form
-      setFormData({
-        name: "",
-        email: "",
-        phone: "",
-        subject: "",
-        message: ""
-      });
+      // Show appropriate toast message based on results
+      if (dbResult.success || emailResult.success) {
+        toast({
+          title: "Message Received",
+          description: "Thank you! We've received your message and will get back to you soon.",
+          duration: 5000,
+        });
+        
+        // Reset form on partial or full success
+        setFormData({
+          name: "",
+          email: "",
+          phone: "",
+          subject: "",
+          message: ""
+        });
+      } else {
+        // Both operations failed
+        toast({
+          title: "Could Not Send Message",
+          description: "There was a problem submitting your message. Please try again later or contact us directly.",
+          variant: "destructive",
+          duration: 5000,
+        });
+      }
       
     } catch (error) {
       console.error("Error processing form:", error);

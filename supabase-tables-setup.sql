@@ -65,7 +65,7 @@ ON callback_requests FOR SELECT
 TO authenticated 
 USING (true);
 
--- Add anonymous access policies (if you want to allow form submissions without auth)
+-- Add anonymous access policies (required for public form submissions)
 CREATE POLICY "Allow anonymous inserts" 
 ON contact_submissions FOR INSERT 
 TO anon 

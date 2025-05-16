@@ -46,12 +46,15 @@ serve(async (req) => {
     const smtpPassword = Deno.env.get("SMTP_PASSWORD") || "";
     const fromEmail = Deno.env.get("FROM_EMAIL") || "noreply@ziaratwhite.com";
     
-    console.log(`SMTP Configuration: Host: ${smtpHost}, Port: ${smtpPort}, From: ${fromEmail}`);
+    console.log(`SMTP Configuration: Host: ${smtpHost}, Port: ${smtpPort}, From: ${fromEmail}, Username: ${smtpUsername.substring(0, 3)}...`);
     
     if (!smtpHost || !smtpUsername || !smtpPassword) {
       console.error("Missing SMTP configuration");
       return new Response(
-        JSON.stringify({ error: "Email server not configured properly. Check Supabase secrets." }),
+        JSON.stringify({ 
+          error: "Email server not configured properly. Check Supabase secrets.",
+          details: "Make sure SMTP_HOST, SMTP_USERNAME, and SMTP_PASSWORD are set in Supabase secrets."
+        }),
         { 
           status: 500,
           headers: { ...corsHeaders, "Content-Type": "application/json" }
@@ -63,22 +66,51 @@ serve(async (req) => {
     const client = new SmtpClient();
     
     console.log("Connecting to SMTP server...");
-    // Connect to SMTP server
-    await client.connectTLS({
-      host: smtpHost,
-      port: smtpPort,
-      username: smtpUsername,
-      password: smtpPassword,
-    });
+    try {
+      // Connect to SMTP server with detailed error handling
+      await client.connectTLS({
+        host: smtpHost,
+        port: smtpPort,
+        username: smtpUsername,
+        password: smtpPassword,
+      });
+    } catch (connectError) {
+      console.error("SMTP connection error:", connectError);
+      return new Response(
+        JSON.stringify({ 
+          error: "Failed to connect to SMTP server",
+          details: connectError.message
+        }),
+        { 
+          status: 500,
+          headers: { ...corsHeaders, "Content-Type": "application/json" }
+        }
+      );
+    }
     
     console.log("Sending email...");
-    // Send email
-    await client.send({
-      from: fromEmail,
-      to: to,
-      subject: subject,
-      content: body,
-    });
+    try {
+      // Send email
+      await client.send({
+        from: fromEmail,
+        to: to,
+        subject: subject,
+        content: body,
+      });
+    } catch (sendError) {
+      console.error("Email sending error:", sendError);
+      await client.close();
+      return new Response(
+        JSON.stringify({ 
+          error: "Failed to send email",
+          details: sendError.message
+        }),
+        { 
+          status: 500,
+          headers: { ...corsHeaders, "Content-Type": "application/json" }
+        }
+      );
+    }
     
     console.log("Closing SMTP connection");
     // Close connection
@@ -95,10 +127,13 @@ serve(async (req) => {
     );
     
   } catch (error) {
-    console.error("Error sending email:", error);
+    console.error("Error in send-email function:", error);
     
     return new Response(
-      JSON.stringify({ error: error.message || "Failed to send email" }),
+      JSON.stringify({ 
+        error: error.message || "Failed to send email",
+        stack: error.stack || "No stack trace available"
+      }),
       { 
         status: 500,
         headers: { ...corsHeaders, "Content-Type": "application/json" }
