@@ -1,11 +1,23 @@
-
 import { createClient } from '@supabase/supabase-js';
 
-// Initialize Supabase client with public keys (safe to expose)
-const supabaseUrl = import.meta.env.VITE_SUPABASE_URL || '';
-const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY || '';
+// Check if environment variables are available and provide fallbacks for development
+const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
+const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
 
-export const supabase = createClient(supabaseUrl, supabaseAnonKey);
+// Validate required configuration
+if (!supabaseUrl) {
+  console.error('Missing VITE_SUPABASE_URL environment variable. Please check your Supabase connection.');
+}
+
+if (!supabaseAnonKey) {
+  console.error('Missing VITE_SUPABASE_ANON_KEY environment variable. Please check your Supabase connection.');
+}
+
+// Create Supabase client with validation
+export const supabase = createClient(
+  supabaseUrl || 'https://placeholder-url.supabase.co', // Placeholder to prevent hard crashes
+  supabaseAnonKey || 'placeholder-key' // Placeholder to prevent hard crashes
+);
 
 // Type definitions for our form data
 export interface ContactFormData {
@@ -36,6 +48,11 @@ export interface CallbackFormData {
 
 // Store contact form submission in database
 export async function submitContactForm(formData: ContactFormData) {
+  if (!supabaseUrl || !supabaseAnonKey) {
+    console.error('Supabase is not properly configured. Please check your environment variables.');
+    return { success: false, error: 'Database connection not configured' };
+  }
+  
   try {
     const { data, error } = await supabase
       .from('contact_submissions')
@@ -58,6 +75,11 @@ export async function submitContactForm(formData: ContactFormData) {
 
 // Store message form submission
 export async function submitMessageForm(formData: MessageFormData) {
+  if (!supabaseUrl || !supabaseAnonKey) {
+    console.error('Supabase is not properly configured. Please check your environment variables.');
+    return { success: false, error: 'Database connection not configured' };
+  }
+  
   try {
     const { data, error } = await supabase
       .from('message_submissions')
@@ -78,6 +100,11 @@ export async function submitMessageForm(formData: MessageFormData) {
 
 // Store callback request form submission
 export async function submitCallbackForm(formData: CallbackFormData) {
+  if (!supabaseUrl || !supabaseAnonKey) {
+    console.error('Supabase is not properly configured. Please check your environment variables.');
+    return { success: false, error: 'Database connection not configured' };
+  }
+  
   try {
     const { data, error } = await supabase
       .from('callback_requests')

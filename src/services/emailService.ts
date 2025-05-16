@@ -9,6 +9,18 @@ interface EmailParams {
 
 export async function sendEmail({ to, subject, body }: EmailParams) {
   try {
+    // Check if Supabase is configured correctly
+    const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
+    const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
+
+    if (!supabaseUrl || !supabaseAnonKey) {
+      console.error('Supabase is not properly configured for email sending.');
+      return { 
+        success: false, 
+        error: 'Email service not configured. Please check Supabase connection.' 
+      };
+    }
+
     // Call the Supabase Edge Function for sending emails
     const { data, error } = await supabase.functions.invoke('send-email', {
       body: JSON.stringify({
