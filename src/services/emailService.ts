@@ -9,6 +9,8 @@ interface EmailParams {
 
 export async function sendEmail({ to, subject, body }: EmailParams) {
   try {
+    console.log('Sending email to:', to);
+    
     // Check if Supabase is configured correctly
     const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
     const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
@@ -21,7 +23,8 @@ export async function sendEmail({ to, subject, body }: EmailParams) {
       };
     }
 
-    // Call the Supabase Edge Function for sending emails
+    // Call the Supabase Edge Function for sending emails with improved error handling
+    console.log('Invoking send-email edge function with params:', { to, subject });
     const { data, error } = await supabase.functions.invoke('send-email', {
       body: JSON.stringify({
         to,
@@ -30,7 +33,12 @@ export async function sendEmail({ to, subject, body }: EmailParams) {
       }),
     });
 
-    if (error) throw error;
+    if (error) {
+      console.error('Error from send-email function:', error);
+      throw error;
+    }
+    
+    console.log('Email sent successfully, response:', data);
     return { success: true, data };
   } catch (error) {
     console.error('Error sending email:', error);
@@ -49,7 +57,7 @@ export function createContactEmailContent(formData: {
   const { name, email, phone, subject = 'New Contact Form Submission', message } = formData;
   
   return {
-    to: "ziaratwhite8@gmail.com",
+    to: "ziaratwhite8@gmail.com", // Your email address
     subject: `Website Contact: ${subject}`,
     body: `
       Name: ${name}
@@ -73,7 +81,7 @@ export function createCallbackEmailContent(formData: {
   const { name, phone, inquiry } = formData;
   
   return {
-    to: "ziaratwhite8@gmail.com",
+    to: "ziaratwhite8@gmail.com", // Your email address
     subject: `Website Callback Request`,
     body: `
       Name: ${name}

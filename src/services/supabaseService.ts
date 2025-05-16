@@ -1,10 +1,11 @@
+
 import { createClient } from '@supabase/supabase-js';
 
-// Check if environment variables are available and provide fallbacks for development
+// Get Supabase credentials from environment variables
 const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
 const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
 
-// Validate required configuration
+// Validate and log configuration status
 if (!supabaseUrl) {
   console.error('Missing VITE_SUPABASE_URL environment variable. Please check your Supabase connection.');
 }
@@ -13,10 +14,10 @@ if (!supabaseAnonKey) {
   console.error('Missing VITE_SUPABASE_ANON_KEY environment variable. Please check your Supabase connection.');
 }
 
-// Create Supabase client with validation
+// Create Supabase client with proper error handling
 export const supabase = createClient(
-  supabaseUrl || 'https://placeholder-url.supabase.co', // Placeholder to prevent hard crashes
-  supabaseAnonKey || 'placeholder-key' // Placeholder to prevent hard crashes
+  supabaseUrl || 'https://placeholder-url.supabase.co', 
+  supabaseAnonKey || 'placeholder-key'
 );
 
 // Type definitions for our form data

@@ -15,6 +15,8 @@ const corsHeaders = {
 };
 
 serve(async (req) => {
+  console.log("Received request to send-email function");
+  
   // Handle CORS preflight request
   if (req.method === "OPTIONS") {
     return new Response("ok", { headers: corsHeaders });
@@ -23,8 +25,11 @@ serve(async (req) => {
   try {
     const { to, subject, body } = await req.json();
     
+    console.log(`Processing email request to: ${to}, subject: ${subject}`);
+    
     // Validate inputs
     if (!to || !subject || !body) {
+      console.error("Missing required fields");
       return new Response(
         JSON.stringify({ error: "Missing required fields" }),
         { 
@@ -41,9 +46,23 @@ serve(async (req) => {
     const smtpPassword = Deno.env.get("SMTP_PASSWORD") || "";
     const fromEmail = Deno.env.get("FROM_EMAIL") || "noreply@ziaratwhite.com";
     
+    console.log(`SMTP Configuration: Host: ${smtpHost}, Port: ${smtpPort}, From: ${fromEmail}`);
+    
+    if (!smtpHost || !smtpUsername || !smtpPassword) {
+      console.error("Missing SMTP configuration");
+      return new Response(
+        JSON.stringify({ error: "Email server not configured properly. Check Supabase secrets." }),
+        { 
+          status: 500,
+          headers: { ...corsHeaders, "Content-Type": "application/json" }
+        }
+      );
+    }
+    
     // Initialize SMTP client
     const client = new SmtpClient();
     
+    console.log("Connecting to SMTP server...");
     // Connect to SMTP server
     await client.connectTLS({
       host: smtpHost,
@@ -52,6 +71,7 @@ serve(async (req) => {
       password: smtpPassword,
     });
     
+    console.log("Sending email...");
     // Send email
     await client.send({
       from: fromEmail,
@@ -60,9 +80,11 @@ serve(async (req) => {
       content: body,
     });
     
+    console.log("Closing SMTP connection");
     // Close connection
     await client.close();
     
+    console.log("Email sent successfully");
     // Return success response
     return new Response(
       JSON.stringify({ success: true, message: "Email sent successfully" }),
