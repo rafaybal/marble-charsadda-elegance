@@ -4,6 +4,8 @@ import HeroContent from "./hero/HeroContent";
 import MessageDialog from "./hero/MessageDialog";
 import ContactDialog from "./hero/ContactDialog";
 import HeroScrollIndicator from "./hero/HeroScrollIndicator";
+import { submitMessageForm, submitCallbackForm } from "@/services/supabaseService";
+import { sendEmail, createContactEmailContent, createCallbackEmailContent } from "@/services/emailService";
 
 const Hero = () => {
   const { toast } = useToast();
@@ -41,52 +43,86 @@ const Hero = () => {
   };
 
   // Handle form submissions
-  const handleMessageSubmit = (e: React.FormEvent) => {
+  const handleMessageSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
-    // Create mailto link and open directly in the current window
-    const mailtoLink = `mailto:ziaratwhite8@gmail.com?subject=${encodeURIComponent(`Message from ${messageForm.name}`)}&body=${encodeURIComponent(
-      `Name: ${messageForm.name}\nEmail: ${messageForm.email}\n\n${messageForm.message}`
-    )}`;
-    
-    // Open in the same window to prevent navigation issues
-    window.location.href = mailtoLink;
-    
-    toast({
-      title: "Email Client Opened",
-      description: "Please complete sending the email in your email client.",
-      duration: 5000,
-    });
-    
-    // Close dialog and reset form after a short delay
-    setTimeout(() => {
+    try {
+      // 1. Store submission in database
+      const dbResult = await submitMessageForm(messageForm);
+      
+      // 2. Send email notification
+      const emailParams = createContactEmailContent({
+        name: messageForm.name,
+        email: messageForm.email,
+        message: messageForm.message,
+      });
+      const emailResult = await sendEmail(emailParams);
+      
+      // Log results
+      console.log("Database submission result:", dbResult);
+      console.log("Email sending result:", emailResult);
+      
+      // Show success message
+      toast({
+        title: "Message Sent Successfully",
+        description: "Thank you! We'll get back to you soon.",
+        duration: 5000,
+      });
+      
+      // Close dialog and reset form
       setShowMessageDialog(false);
       setMessageForm({ name: "", email: "", message: "" });
-    }, 1000);
+      
+    } catch (error) {
+      console.error("Error sending message:", error);
+      toast({
+        title: "Error Sending Message",
+        description: "There was a problem submitting your message. Please try again.",
+        variant: "destructive",
+        duration: 5000,
+      });
+    }
   };
 
-  const handleContactSubmit = (e: React.FormEvent) => {
+  const handleContactSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
-    // Create mailto link and open directly in the current window
-    const mailtoLink = `mailto:ziaratwhite8@gmail.com?subject=${encodeURIComponent(`Contact Request from ${contactForm.name}`)}&body=${encodeURIComponent(
-      `Name: ${contactForm.name}\nPhone: ${contactForm.phone}\nInquiry: ${contactForm.inquiry}`
-    )}`;
-    
-    // Open in the same window to prevent navigation issues
-    window.location.href = mailtoLink;
-    
-    toast({
-      title: "Email Client Opened",
-      description: "Please complete sending the email in your email client.",
-      duration: 5000,
-    });
-    
-    // Close dialog and reset form after a short delay
-    setTimeout(() => {
+    try {
+      // 1. Store submission in database
+      const dbResult = await submitCallbackForm(contactForm);
+      
+      // 2. Send email notification
+      const emailParams = createCallbackEmailContent({
+        name: contactForm.name,
+        phone: contactForm.phone,
+        inquiry: contactForm.inquiry,
+      });
+      const emailResult = await sendEmail(emailParams);
+      
+      // Log results
+      console.log("Database submission result:", dbResult);
+      console.log("Email sending result:", emailResult);
+      
+      // Show success message
+      toast({
+        title: "Callback Request Sent",
+        description: "Thank you! We'll call you back soon.",
+        duration: 5000,
+      });
+      
+      // Close dialog and reset form
       setShowContactDialog(false);
       setContactForm({ name: "", phone: "", inquiry: "" });
-    }, 1000);
+      
+    } catch (error) {
+      console.error("Error sending contact request:", error);
+      toast({
+        title: "Error Sending Request",
+        description: "There was a problem submitting your request. Please try again.",
+        variant: "destructive",
+        duration: 5000,
+      });
+    }
   };
 
   useEffect(() => {

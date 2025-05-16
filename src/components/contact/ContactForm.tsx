@@ -2,9 +2,11 @@
 import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import FormInput from "./FormInput";
+import { submitContactForm } from "@/services/supabaseService";
+import { sendEmail, createContactEmailContent } from "@/services/emailService";
 
 type ContactFormProps = {
-  toast: any; // Using any for now as the toast type is complex
+  toast: any;
 };
 
 const ContactForm = ({ toast }: ContactFormProps) => {
@@ -30,45 +32,42 @@ const ContactForm = ({ toast }: ContactFormProps) => {
     setIsSubmitting(true);
     
     try {
-      // Directly send email using the form data
-      // This will show a native email client popup with the data pre-filled
-      const mailtoLink = `mailto:ziaratwhite8@gmail.com?subject=${encodeURIComponent(formData.subject)}&body=${encodeURIComponent(
-        `Name: ${formData.name}\nEmail: ${formData.email}\nPhone: ${formData.phone}\n\n${formData.message}`
-      )}`;
+      // 1. Store the submission in Supabase
+      const dbResult = await submitContactForm(formData);
       
-      // Log the data being sent
-      console.log("Sending email with form data:", formData);
+      // 2. Send the email notification
+      const emailParams = createContactEmailContent(formData);
+      const emailResult = await sendEmail(emailParams);
       
-      // Open email client in the same window to prevent navigation away
-      window.location.href = mailtoLink;
+      // Log results for debugging
+      console.log("Database submission result:", dbResult);
+      console.log("Email sending result:", emailResult);
       
       // Show success message
       toast({
-        title: "Email Client Opened",
-        description: "Please complete sending the email in your email client.",
+        title: "Message Sent Successfully",
+        description: "Thank you! We'll get back to you soon.",
         duration: 5000,
       });
       
-      // Reset form after short delay to ensure the mailto has time to open
-      setTimeout(() => {
-        setFormData({
-          name: "",
-          email: "",
-          phone: "",
-          subject: "",
-          message: ""
-        });
-        setIsSubmitting(false);
-      }, 1000);
+      // Reset form
+      setFormData({
+        name: "",
+        email: "",
+        phone: "",
+        subject: "",
+        message: ""
+      });
       
     } catch (error) {
-      console.error("Error sending message:", error);
+      console.error("Error processing form:", error);
       toast({
         title: "Error Sending Message",
-        description: "There was a problem opening your email client. Please try again.",
+        description: "There was a problem submitting your message. Please try again.",
         variant: "destructive",
         duration: 5000,
       });
+    } finally {
       setIsSubmitting(false);
     }
   };
