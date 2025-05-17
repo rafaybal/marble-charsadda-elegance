@@ -19,7 +19,7 @@ export async function sendEmail({ to, subject, body }: EmailParams) {
       console.warn('Supabase is not properly configured. Emails will not be sent until environment variables are set.');
       return { 
         success: false, 
-        error: 'Email service not configured. Please check Supabase connection.' 
+        error: 'Email service not configured. Please set up Supabase environment variables.' 
       };
     }
 

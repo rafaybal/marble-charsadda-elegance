@@ -2,20 +2,21 @@
 import { createClient } from '@supabase/supabase-js';
 
 // Get Supabase credentials from environment variables
-const supabaseUrl = import.meta.env.VITE_SUPABASE_URL || '';
-const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY || '';
+// Provide dummy values for development when env vars are not set
+const supabaseUrl = import.meta.env.VITE_SUPABASE_URL || 'https://your-project-url.supabase.co';
+const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY || 'your-anon-key';
 
-// Create Supabase client
+// Check if we're using real or placeholder values
+const usingPlaceholderValues = !import.meta.env.VITE_SUPABASE_URL || !import.meta.env.VITE_SUPABASE_ANON_KEY;
+if (usingPlaceholderValues) {
+  console.warn(
+    'Using placeholder Supabase credentials. Please set VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY ' +
+    'environment variables in your Lovable project settings. Forms and emails will not work until this is configured.'
+  );
+}
+
+// Create Supabase client with provided or dummy values to prevent runtime errors
 export const supabase = createClient(supabaseUrl, supabaseAnonKey);
-
-// Log status for debugging
-if (!supabaseUrl) {
-  console.warn('Missing VITE_SUPABASE_URL environment variable. Forms and emails will not work until this is configured.');
-}
-
-if (!supabaseAnonKey) {
-  console.warn('Missing VITE_SUPABASE_ANON_KEY environment variable. Forms and emails will not work until this is configured.');
-}
 
 // Type definitions for our form data
 export interface ContactFormData {
@@ -46,9 +47,12 @@ export interface CallbackFormData {
 
 // Store contact form submission in database
 export async function submitContactForm(formData: ContactFormData) {
-  if (!supabaseUrl || !supabaseAnonKey) {
+  if (usingPlaceholderValues) {
     console.warn('Supabase is not properly configured. Form data will not be stored.');
-    return { success: false, error: 'Database connection not configured' };
+    return { 
+      success: false, 
+      error: 'Database connection not configured. Please set up Supabase environment variables.' 
+    };
   }
   
   try {
@@ -73,9 +77,12 @@ export async function submitContactForm(formData: ContactFormData) {
 
 // Store message form submission
 export async function submitMessageForm(formData: MessageFormData) {
-  if (!supabaseUrl || !supabaseAnonKey) {
+  if (usingPlaceholderValues) {
     console.warn('Supabase is not properly configured. Form data will not be stored.');
-    return { success: false, error: 'Database connection not configured' };
+    return { 
+      success: false, 
+      error: 'Database connection not configured. Please set up Supabase environment variables.' 
+    };
   }
   
   try {
@@ -98,9 +105,12 @@ export async function submitMessageForm(formData: MessageFormData) {
 
 // Store callback request form submission
 export async function submitCallbackForm(formData: CallbackFormData) {
-  if (!supabaseUrl || !supabaseAnonKey) {
+  if (usingPlaceholderValues) {
     console.warn('Supabase is not properly configured. Form data will not be stored.');
-    return { success: false, error: 'Database connection not configured' };
+    return { 
+      success: false, 
+      error: 'Database connection not configured. Please set up Supabase environment variables.' 
+    };
   }
   
   try {
