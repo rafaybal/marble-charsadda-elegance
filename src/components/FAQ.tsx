@@ -77,7 +77,7 @@ const FAQ = () => {
                 Contact Us
               </a>
               <a 
-                href="https://wa.me/+923001234567" 
+                href="https://wa.me/+923469655623" 
                 target="_blank" 
                 rel="noopener noreferrer"
                 className="inline-flex items-center justify-center px-6 py-3 bg-green-600 hover:bg-green-700 text-white rounded-md font-medium transition-colors"
