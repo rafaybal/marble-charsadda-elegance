@@ -1,9 +1,12 @@
 import React from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, WhatsApp } from "lucide-react";
 
 const Footer = () => {
+  // Format the WhatsApp number for the link
+  const whatsappNumber = "+923469655623"; // Formatted for URL
+  
   return (
     <footer className="bg-marble-900 text-white">
       <div className="container-custom py-16">
@@ -28,6 +31,15 @@ const Footer = () => {
                 <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="currentColor" viewBox="0 0 24 24">
                   <path d="M9 8h-3v4h3v12h5v-12h3.642l.358-4h-4v-1.667c0-.955.192-1.333 1.115-1.333h2.885v-5h-3.808c-3.596 0-5.192 1.583-5.192 4.615v3.385z" />
                 </svg>
+              </a>
+              <a 
+                href={`https://wa.me/${whatsappNumber}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="WhatsApp"
+                className="h-10 w-10 rounded-full bg-marble-800 flex items-center justify-center hover:bg-gold-600 transition-colors"
+              >
+                <WhatsApp className="h-5 w-5" />
               </a>
               <a 
                 href="#" 

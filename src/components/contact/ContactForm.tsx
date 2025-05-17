@@ -35,7 +35,7 @@ const ContactForm = ({ toast }: ContactFormProps) => {
       // 1. Store the submission in Supabase
       const dbResult = await submitContactForm(formData);
       
-      // 2. Send the email notification
+      // 2. Send the email notification with all form data
       const emailParams = createContactEmailContent(formData);
       const emailResult = await sendEmail(emailParams);
       

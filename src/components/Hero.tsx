@@ -1,3 +1,4 @@
+
 import { useEffect, useRef, useState } from "react";
 import { useToast } from "@/hooks/use-toast";
 import HeroContent from "./hero/HeroContent";
@@ -5,7 +6,12 @@ import MessageDialog from "./hero/MessageDialog";
 import ContactDialog from "./hero/ContactDialog";
 import HeroScrollIndicator from "./hero/HeroScrollIndicator";
 import { submitMessageForm, submitCallbackForm } from "@/services/supabaseService";
-import { sendEmail, createContactEmailContent, createCallbackEmailContent } from "@/services/emailService";
+import { 
+  sendEmail, 
+  createContactEmailContent, 
+  createCallbackEmailContent,
+  createMessageDialogEmailContent 
+} from "@/services/emailService";
 
 const Hero = () => {
   const { toast } = useToast();
@@ -50,8 +56,8 @@ const Hero = () => {
       // 1. Store submission in database
       const dbResult = await submitMessageForm(messageForm);
       
-      // 2. Send email notification
-      const emailParams = createContactEmailContent({
+      // 2. Send email notification with all form data
+      const emailParams = createMessageDialogEmailContent({
         name: messageForm.name,
         email: messageForm.email,
         message: messageForm.message,
@@ -91,7 +97,7 @@ const Hero = () => {
       // 1. Store submission in database
       const dbResult = await submitCallbackForm(contactForm);
       
-      // 2. Send email notification
+      // 2. Send email notification with all form data
       const emailParams = createCallbackEmailContent({
         name: contactForm.name,
         phone: contactForm.phone,
