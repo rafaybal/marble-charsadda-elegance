@@ -1,5 +1,5 @@
 
-import { supabase } from './supabaseService';
+import { supabase } from '@/integrations/supabase/client';
 
 interface EmailParams {
   to: string;
@@ -11,18 +11,6 @@ export async function sendEmail({ to, subject, body }: EmailParams) {
   try {
     console.log('Attempting to send email to:', to);
     
-    // Check if Supabase is configured correctly
-    const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
-    const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
-
-    if (!supabaseUrl || !supabaseAnonKey) {
-      console.warn('Supabase is not properly configured. Emails will not be sent until environment variables are set.');
-      return { 
-        success: false, 
-        error: 'Email service not configured. Please set up Supabase environment variables.' 
-      };
-    }
-
     // Log the attempt with more details
     console.log('Invoking send-email edge function with params:', { to, subject });
     
